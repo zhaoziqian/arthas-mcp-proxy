@@ -1,0 +1,18 @@
+# Arthas Agent 清单（模板）
+# 复制为 agents.yaml 并填写真实地址/账号。每新增一个服务，只在这里加一项即可。
+agents:
+  - name: 测试环境              # target 引用名（在 Claude 里用这个名字）
+    url: http://xx.xx.xx.xx:8563 # arthas httpPort 地址
+    username: arthas
+    password: arthas
+    auth: basic                 # basic | bearer（bearer 时用 password 作为 token）
+
+  # - name: 预发环境
+  #   url: http://xx.xx.xx.xx:8563
+  #   username: arthas
+  #   password: arthas
+  #   auth: basic
+
+defaults:
+  exec_timeout_ms: 10000        # 单次命令默认超时（毫秒）
+  # blocked_commands: [stop, redefine, retransform, mc, reset]  # 危险命令黑名单（可覆盖）

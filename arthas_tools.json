@@ -1,0 +1,1075 @@
+[
+  {
+    "name": "sysprop",
+    "description": "SysProp 诊断工具: 查看或修改系统属性，对应 Arthas 的 sysprop 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "propertyName": {
+          "description": "属性名",
+          "type": "string"
+        },
+        "propertyValue": {
+          "description": "属性值；若指定则修改，否则查看",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "jvm",
+    "description": "Jvm 诊断工具: 查看当前 JVM 运行时信息。对应 Arthas 的 jvm 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "ognl",
+    "description": "OGNL 诊断工具: 执行 OGNL 表达式，对应 Arthas 的 ognl 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "expandLevel": {
+          "description": "结果对象展开层次 (-x)，默认 1",
+          "type": "integer"
+        },
+        "expression": {
+          "description": "OGNL 表达式",
+          "type": "string"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "expression"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "perfcounter",
+    "description": "PerfCounter 诊断工具: 查看 JVM Perf Counter 信息，对应 Arthas 的 perfcounter 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "detailed": {
+          "description": "是否打印更多详情 (-d)",
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "memory",
+    "description": "Memory 诊断工具: 查看 JVM 内存使用情况，对应 Arthas 的 memory 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "getstatic",
+    "description": "GetStatic 诊断工具: 查看类的静态字段值，可指定 ClassLoader，支持在返回结果上执行 OGNL 表达式。对应 Arthas 的 getstatic 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "ognlExpression": {
+          "description": "OGNL 表达式",
+          "type": "string"
+        },
+        "fieldName": {
+          "description": "静态字段名",
+          "type": "string"
+        },
+        "className": {
+          "description": "类名表达式匹配，如java.lang.String或demo.MathGame",
+          "type": "string"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "className",
+        "fieldName"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "classloader",
+    "description": "ClassLoader 诊断工具，可以查看类加载器统计信息、继承树、URLs，以及进行资源查找和类加载操作。搜索类的场景优先使用 sc 工具",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "显示模式：stats(统计信息，默认), instances(实例详情), tree(继承树), all-classes(所有类，慎用), url-stats(URL统计), url-classes(URL与类关系)",
+          "type": "string"
+        },
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "regex": {
+          "description": "是否使用正则匹配 jar/class（等价于 -E），仅在 mode=url-classes 时生效",
+          "type": "boolean"
+        },
+        "resource": {
+          "description": "要查找的资源名称，如META-INF/MANIFEST.MF",
+          "type": "string"
+        },
+        "loadClass": {
+          "description": "要加载的类名，支持全限定名",
+          "type": "string"
+        },
+        "limit": {
+          "description": "详情模式下每个 URL/jar 最多展示类数量（等价于 -n），默认 100，仅在 mode=url-classes 时生效",
+          "type": "integer"
+        },
+        "details": {
+          "description": "详情模式：列出每个 URL/jar 中的类名（等价于 -d），仅在 mode=url-classes 时生效",
+          "type": "boolean"
+        },
+        "jar": {
+          "description": "按 jar 包名/URL 关键字过滤，仅在 mode=url-classes 时生效",
+          "type": "string"
+        },
+        "classFilter": {
+          "description": "按类名/包名关键字过滤，仅在 mode=url-classes 时生效",
+          "type": "string"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "profiler",
+    "description": "Async Profiler 诊断工具: 对应 Arthas 的 profiler 命令，用于采样 CPU/alloc/lock 等事件并输出 flamegraph/jfr 等格式。\n常用示例:\n- start: 开始采样，如 action=start, event=cpu\n- stop: 停止并输出文件，如 action=stop, format=flamegraph, file=/tmp/result.html\n- status/list/actions: 查看状态/支持事件/支持动作\n- execute: 直接传递 async-profiler agent 兼容参数，如 action=execute, actionArg=\"stop,file=/tmp/result.html\"",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "chunktime": {
+          "description": "JFR chunk 时间 (--chunktime)，默认 1h",
+          "type": "string"
+        },
+        "lib": {
+          "description": "前置库名 (-l)",
+          "type": "boolean"
+        },
+        "simple": {
+          "description": "使用简单类名 (-s)",
+          "type": "boolean"
+        },
+        "title": {
+          "description": "FlameGraph 标题 (--title)",
+          "type": "string"
+        },
+        "jfrsync": {
+          "description": "与 profiler 一起启动 JFR (--jfrsync)，可为预置 profile 名称、.jfc 路径或 + 事件列表",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "自动停止时间 (--timeout)，绝对或相对时间，如 300s",
+          "type": "string"
+        },
+        "norm": {
+          "description": "规范化方法名，移除 lambda 类的数字后缀 (--norm)",
+          "type": "boolean"
+        },
+        "sig": {
+          "description": "打印方法签名 (-g)",
+          "type": "boolean"
+        },
+        "duration": {
+          "description": "持续采样秒数 (--duration)。注意：到时自动 stop 在后台执行，stop 的结果不会回传到当前命令输出。",
+          "type": "integer"
+        },
+        "actionArg": {
+          "description": "动作参数（可选）。当 action=execute 时必填，示例: \"stop,file=/tmp/result.html\"",
+          "type": "string"
+        },
+        "features": {
+          "description": "启用的特性集合 (--features)",
+          "type": "string"
+        },
+        "total": {
+          "description": "统计总量而非样本数 (--total)",
+          "type": "boolean"
+        },
+        "file": {
+          "description": "输出文件路径 (--file)。如果以 .html/.jfr 结尾可推断 format；也可包含 %t 等占位符（如 /tmp/result-%t.html）",
+          "type": "string"
+        },
+        "loop": {
+          "description": "循环采样参数 (--loop)，用于 continuous profiling，如 300s",
+          "type": "string"
+        },
+        "chunksize": {
+          "description": "JFR chunk 大小 (--chunksize)，默认 100MB 或其它单位",
+          "type": "string"
+        },
+        "action": {
+          "description": "动作（必填），可选值: start/resume/stop/dump/status/meminfo/list/version/load/execute/dumpCollapsed/dumpFlat/dumpTraces/getSamples/actions",
+          "type": "string"
+        },
+        "lock": {
+          "description": "lock 事件阈值 ns (--lock)，如 10ms/10000000 等",
+          "type": "string"
+        },
+        "exclude": {
+          "description": "排除匹配的栈帧（可重复多次），等价 --exclude '*Unsafe.park*'。传入数组。",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "end": {
+          "description": "当指定 native 函数执行时自动停止采样 (--end)",
+          "type": "string"
+        },
+        "event": {
+          "description": "采样事件 (--event)，如 cpu/alloc/lock/wall，默认 cpu",
+          "type": "string"
+        },
+        "signal": {
+          "description": "采样信号 (--signal)",
+          "type": "string"
+        },
+        "live": {
+          "description": "仅对存活对象做 alloc 统计 (--live)",
+          "type": "boolean"
+        },
+        "ann": {
+          "description": "注解 Java 方法 (-a)",
+          "type": "boolean"
+        },
+        "include": {
+          "description": "仅包含匹配的栈帧（可重复多次），等价 --include 'java/*'。传入数组。",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "format": {
+          "description": "输出格式 (--format)，支持 flat[=N]|traces[=N]|collapsed|flamegraph|tree|jfr|md[=N]（兼容传入 html）",
+          "type": "string"
+        },
+        "threads": {
+          "description": "按线程区分采样 (--threads)",
+          "type": "boolean"
+        },
+        "ttsp": {
+          "description": "time-to-safepoint 采样别名开关 (--ttsp)，等价设置 begin/end 为特定函数",
+          "type": "boolean"
+        },
+        "clock": {
+          "description": "时间戳时钟源 (--clock)，可选 monotonic 或 tsc",
+          "type": "string"
+        },
+        "reverse": {
+          "description": "生成反向 FlameGraph/Call tree (--reverse)",
+          "type": "boolean"
+        },
+        "allUser": {
+          "description": "仅包含用户态事件 (--all-user)",
+          "type": "boolean"
+        },
+        "jstackdepth": {
+          "description": "最大 Java 栈深 (--jstackdepth)，默认 2048",
+          "type": "integer"
+        },
+        "sched": {
+          "description": "按调度策略分组线程 (--sched)",
+          "type": "boolean"
+        },
+        "minwidth": {
+          "description": "FlameGraph 最小帧宽百分比 (--minwidth)",
+          "type": "string"
+        },
+        "interval": {
+          "description": "采样间隔 ns (--interval)，默认 10000000(10ms)",
+          "type": "integer"
+        },
+        "alloc": {
+          "description": "alloc 事件采样间隔字节数 (--alloc)，如 1m/512k/1000 等",
+          "type": "string"
+        },
+        "wall": {
+          "description": "wall clock 采样间隔 ms (--wall)，推荐 200",
+          "type": "integer"
+        },
+        "begin": {
+          "description": "当指定 native 函数执行时自动开始采样 (--begin)",
+          "type": "string"
+        },
+        "cstack": {
+          "description": "C 栈采样方式 (--cstack)，可选 fp|dwarf|vm|vmx|no",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "thread",
+    "description": "Thread 诊断工具: 查看线程信息及堆栈，对应 Arthas 的 thread 命令。一次性输出结果。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "threadId": {
+          "description": "线程 ID",
+          "type": "integer"
+        },
+        "all": {
+          "description": "是否显示所有匹配线程 (--all)",
+          "type": "boolean"
+        },
+        "blocking": {
+          "description": "是否查找阻塞其他线程的线程 (-b)",
+          "type": "boolean"
+        },
+        "topN": {
+          "description": "最忙前 N 个线程并打印堆栈 (-n)",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "jad",
+    "description": "反编译指定已加载类的源码，将JVM中实际运行的class的bytecode反编译成java代码",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名表达式匹配，如java.lang.String或demo.MathGame",
+          "type": "string"
+        },
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "useRegex": {
+          "description": "开启正则表达式匹配，默认为通配符匹配，默认false",
+          "type": "boolean"
+        },
+        "sourceOnly": {
+          "description": "反编译时只显示源代码，默认false",
+          "type": "boolean"
+        },
+        "dumpDirectory": {
+          "description": "指定dump class文件目录，默认会dump到logback.xml中配置的log目录下",
+          "type": "string"
+        },
+        "noLineNumber": {
+          "description": "反编译时不显示行号，默认false",
+          "type": "boolean"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "viewfile",
+    "description": "查看文件内容（仅允许在配置的目录白名单内查看），并支持 cursor/offset 分段读取，避免一次性返回大量内容。\n默认允许目录：当前工作目录下的 arthas-output（若存在）、用户目录下的 ~/logs/（若存在）。\n配置白名单目录：\n- 环境变量: ARTHAS_MCP_VIEWFILE_ALLOWED_DIRS=/path/a,/path/b\n使用方式：\n- 首次读取：传 path（可传 offset/maxBytes）\n- 继续读取：传 cursor（由上一次返回结果提供）",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "description": "游标（上一段返回的 nextCursor），用于继续读取。提供 cursor 时会忽略 path/offset。",
+          "type": "string"
+        },
+        "path": {
+          "description": "文件路径（绝对路径或相对路径；相对路径会在允许目录下解析）。当提供 cursor 时可不传。",
+          "type": "string"
+        },
+        "offset": {
+          "description": "起始字节偏移量（默认 0）。",
+          "type": "integer"
+        },
+        "maxBytes": {
+          "description": "本次最多读取字节数（默认 8192，最大 65536）。",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "heapdump",
+    "description": "Heapdump 诊断工具: 生成 JVM heap dump，支持 --live 选项。对应 Arthas 的 heapdump 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "filePath": {
+          "description": "指定输出文件路径，默认为当前工作目录下的arthas-output文件夹中的时间戳命名的.hprof文件",
+          "type": "string"
+        },
+        "live": {
+          "description": "是否只 dump 存活对象 (--live)",
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "sc",
+    "description": "搜索 JVM 中已加载的类。支持通配符(*)和正则表达式匹配，可查看类的详细信息（类加载器、接口、父类、注解等）和字段信息",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名模式，支持全限定名。可使用通配符如 *StringUtils 或 org.apache.commons.lang.*，类名分隔符支持 '.' 或 '/'",
+          "type": "string"
+        },
+        "classLoaderClass": {
+          "description": "指定 ClassLoader 的完整类名，如 sun.misc.Launcher$AppClassLoader，可替代 hashcode",
+          "type": "string"
+        },
+        "regex": {
+          "description": "是否使用正则表达式匹配类名。默认为 false（使用通配符匹配）",
+          "type": "boolean"
+        },
+        "expand": {
+          "description": "对象展开层级，用于展示更详细的对象结构。默认为 0",
+          "type": "integer"
+        },
+        "field": {
+          "description": "是否显示类的所有成员变量（字段）信息。需要 detail 为 true 时才生效",
+          "type": "boolean"
+        },
+        "classLoaderStr": {
+          "description": "指定 ClassLoader 的 toString() 返回值，用于匹配特定的类加载器实例",
+          "type": "string"
+        },
+        "limit": {
+          "description": "最大匹配类数量限制（仅在显示详细信息时生效）。默认为 100，防止返回过多结果",
+          "type": "integer"
+        },
+        "detail": {
+          "description": "是否显示类的详细信息，包括类加载器、代码来源、接口、父类、注解等。默认为 true",
+          "type": "boolean"
+        },
+        "classLoaderHash": {
+          "description": "指定 ClassLoader 的 hashcode（16进制），用于在多个 ClassLoader 加载同名类时精确定位",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "vmoption",
+    "description": "VMOption 诊断工具: 查看或更新 JVM VM options，对应 Arthas 的 vmoption 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "更新值，仅在更新时使用",
+          "type": "string"
+        },
+        "key": {
+          "description": "Name of the VM option.",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "redefine",
+    "description": "重新加载类的字节码，允许在JVM运行时，重新加载已存在的类的字节码，实现热更新",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classLoaderClass": {
+          "description": "指定执行表达式的ClassLoader的class name，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "classFilePaths": {
+          "description": "要重新定义的.class文件路径，支持多个文件，用空格分隔",
+          "type": "string"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classFilePaths"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "mbean",
+    "description": "MBean 诊断工具: 查看或监控 MBean 属性信息，对应 Arthas 的 mbean 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "namePattern": {
+          "description": "MBean名称表达式匹配，如java.lang:type=GarbageCollector,name=*",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "是否查看元信息 (-m)",
+          "type": "boolean"
+        },
+        "intervalMs": {
+          "description": "刷新间隔，单位为毫秒，默认 3000ms。用于控制输出频率",
+          "type": "integer"
+        },
+        "regex": {
+          "description": "开启正则表达式匹配，默认为通配符匹配，默认false",
+          "type": "boolean"
+        },
+        "attributePattern": {
+          "description": "属性名表达式匹配，支持通配符如CollectionCount",
+          "type": "string"
+        },
+        "numberOfExecutions": {
+          "description": "执行次数限制，默认值为 1。达到指定次数后自动停止",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "namePattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "stop",
+    "description": "彻底停止 Arthas。注意停止之后不能再调用任何 tool 了。为了确保 MCP client 能收到返回结果，本 tool 会先返回，再延迟执行 stop。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "delayMs": {
+          "description": "延迟执行 stop 的毫秒数，默认 1000ms。用于确保 MCP client 收到返回结果。",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "retransform",
+    "description": "热加载类的字节码，允许对已加载的类进行字节码修改并使其生效",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "classFilePaths": {
+          "description": "要操作的.class文件路径，支持多个文件，用空格分隔",
+          "type": "string"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classFilePaths"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "mc",
+    "description": "Memory Compiler/内存编译器，编译.java文件生成.class",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "javaFilePaths": {
+          "description": "要编译的.java文件路径，支持多个文件，用空格分隔",
+          "type": "string"
+        },
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "outputDir": {
+          "description": "指定输出目录，默认为工作目录下arthas-output文件夹",
+          "type": "string"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "javaFilePaths"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "options",
+    "description": "Options 诊断工具: 查看或修改 Arthas 全局开关选项，对应 Arthas 的 options 命令。\n使用示例:\n- 不带参数: 列出所有选项\n- 只指定 name: 查看指定选项的当前值\n- 指定 name 和 value: 修改选项的值\n常用选项:\n- unsafe: 是否支持系统类增强（默认 false）\n- dump: 是否 dump 增强后的类（默认 false）\n- json-format: 是否使用 JSON 格式输出（默认 false）\n- strict: 是否启用严格模式，禁止设置对象属性（默认 true）",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "选项名称，如: unsafe, dump, json-format, strict 等",
+          "type": "string"
+        },
+        "value": {
+          "description": "选项值，用于修改选项时指定新值",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "sm",
+    "description": "搜索 JVM 中已加载类的方法。支持通配符(*)和正则表达式匹配，可查看方法的详细信息（返回类型、参数类型、异常类型、注解等）",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名模式，支持全限定名。可使用通配符如 *StringUtils 或 org.apache.commons.lang.*，类名分隔符支持 '.' 或 '/'",
+          "type": "string"
+        },
+        "classLoaderClass": {
+          "description": "指定 ClassLoader 的完整类名，如 sun.misc.Launcher$AppClassLoader，可替代 hashcode",
+          "type": "string"
+        },
+        "regex": {
+          "description": "是否使用正则表达式匹配类名和方法名。默认为 false（使用通配符匹配）",
+          "type": "boolean"
+        },
+        "methodPattern": {
+          "description": "方法名模式。可使用通配符如 get* 或 *Name。不指定时匹配所有方法",
+          "type": "string"
+        },
+        "limit": {
+          "description": "最大匹配类数量限制。默认为 100，防止返回过多结果",
+          "type": "integer"
+        },
+        "detail": {
+          "description": "是否显示方法的详细信息，包括返回类型、参数类型、异常类型、注解、类加载器等。默认为 true",
+          "type": "boolean"
+        },
+        "classLoaderHash": {
+          "description": "指定 ClassLoader 的 hashcode（16进制），用于在多个 ClassLoader 加载同名类时精确定位",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "dump",
+    "description": "将JVM中实际运行的class字节码dump到指定目录，适用于批量下载指定包目录的class字节码",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名表达式匹配，如java.lang.String或demo.MathGame",
+          "type": "string"
+        },
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "outputDir": {
+          "description": "指定输出目录，默认为arthas-output文件夹",
+          "type": "string"
+        },
+        "limit": {
+          "description": "限制dump的类数量，避免输出过多文件",
+          "type": "integer"
+        },
+        "includeInnerClasses": {
+          "description": "是否包含子类，默认为false",
+          "type": "boolean"
+        },
+        "classLoaderHashcode": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "sysenv",
+    "description": "SysEnv 诊断工具: 查看系统环境变量，对应 Arthas 的 sysenv 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "envName": {
+          "description": "环境变量名。若为空或空字符串，则查看所有变量；否则查看单个变量值。",
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "vmtool",
+    "description": "虚拟机工具诊断工具: 查询实例、强制 GC、线程中断等，对应 Arthas 的 vmtool 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classLoaderClass": {
+          "description": "ClassLoader的完整类名，如sun.misc.Launcher$AppClassLoader，可替代hashcode",
+          "type": "string"
+        },
+        "expandLevel": {
+          "description": "结果对象展开层次 (-x)，默认 1",
+          "type": "integer"
+        },
+        "threadId": {
+          "description": "线程 ID (-t)，interruptThread 时使用",
+          "type": "integer"
+        },
+        "limit": {
+          "description": "返回实例限制数量 (-l)，getInstances 时使用，默认 10；<=0 表示不限制",
+          "type": "integer"
+        },
+        "action": {
+          "description": "操作类型: getInstances/forceGc/interruptThread 等",
+          "type": "string"
+        },
+        "className": {
+          "description": "类名，全限定（getInstances 时使用）",
+          "type": "string"
+        },
+        "express": {
+          "description": "OGNL 表达式，对 getInstances 返回的 instances 执行 (--express)",
+          "type": "string"
+        },
+        "classLoaderHash": {
+          "description": "ClassLoader的hashcode（16进制），用于指定特定的ClassLoader",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "dashboard",
+    "description": "Dashboard 诊断工具: 实时展示 JVM/应用面板，可利用参数控制诊断次数与间隔。对应 Arthas 的 dashboard 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "intervalMs": {
+          "description": "刷新间隔，单位为毫秒，默认 3000ms。用于控制输出频率",
+          "type": "integer"
+        },
+        "numberOfExecutions": {
+          "description": "执行次数限制，默认值为 3。达到指定次数后自动停止",
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "monitor",
+    "description": "Monitor 方法调用监控工具: 实时监控指定类的指定方法的调用情况，包括调用次数、成功次数、失败次数、平均RT、失败率等统计信息。对应 Arthas 的 monitor 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名表达式匹配，支持通配符，如demo.MathGame",
+          "type": "string"
+        },
+        "condition": {
+          "description": "OGNL条件表达式，满足条件的调用才会被监控，如params[0]<0",
+          "type": "string"
+        },
+        "intervalMs": {
+          "description": "监控统计输出间隔，单位为毫秒，默认 3000ms。用于控制输出频率",
+          "type": "integer"
+        },
+        "regex": {
+          "description": "开启正则表达式匹配，默认为通配符匹配，默认false",
+          "type": "boolean"
+        },
+        "methodPattern": {
+          "description": "方法名表达式匹配，支持通配符，如primeFactors",
+          "type": "string"
+        },
+        "numberOfExecutions": {
+          "description": "执行次数限制，默认值为1。达到指定次数后自动停止",
+          "type": "integer"
+        },
+        "maxMatch": {
+          "description": "最大匹配类数量，防止匹配过多类影响性能，默认50",
+          "type": "integer"
+        },
+        "timeout": {
+          "description": "命令执行超时时间，单位为秒，默认30秒。超时后命令自动退出",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "stack",
+    "description": "Stack 调用堆栈跟踪工具: 输出当前方法被调用的调用路径，帮助分析方法的调用链路。对应 Arthas 的 stack 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名表达式匹配，支持通配符，如demo.MathGame",
+          "type": "string"
+        },
+        "condition": {
+          "description": "OGNL条件表达式，满足条件的调用才会被跟踪，如params[0]<0",
+          "type": "string"
+        },
+        "regex": {
+          "description": "开启正则表达式匹配，默认为通配符匹配，默认false",
+          "type": "boolean"
+        },
+        "methodPattern": {
+          "description": "方法名表达式匹配，支持通配符，如primeFactors",
+          "type": "string"
+        },
+        "numberOfExecutions": {
+          "description": "捕获次数限制，默认值为1。达到指定次数后自动停止",
+          "type": "integer"
+        },
+        "timeout": {
+          "description": "命令执行超时时间，单位为秒，默认30秒。超时后命令自动退出",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "tt",
+    "description": "TimeTunnel 时空隧道工具: 方法执行数据的时空隧道，记录下指定方法每次调用的入参和返回信息，对应 Arthas 的 tt 命令。支持记录、列表、搜索、查看详情、重放、删除等操作。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名表达式匹配，支持通配符，如demo.MathGame或*Test。record操作时必需",
+          "type": "string"
+        },
+        "maxMatchCount": {
+          "description": "Class最大匹配数量，防止匹配到的Class数量太多导致JVM挂起，默认50",
+          "type": "integer"
+        },
+        "sizeLimit": {
+          "description": "输出结果大小上限(字节)。对应 tt -M/--sizeLimit，默认 10 * 1024 * 1024",
+          "type": "integer"
+        },
+        "condition": {
+          "description": "OGNL条件表达式，满足条件的调用才会被记录，如params[0]<0或'params.length==1'",
+          "type": "string"
+        },
+        "regex": {
+          "description": "开启正则表达式匹配，默认为通配符匹配，默认false",
+          "type": "boolean"
+        },
+        "searchExpression": {
+          "description": "搜索表达式，用于search操作，支持OGNL表达式如'method.name==\"primeFactors\"'",
+          "type": "string"
+        },
+        "methodPattern": {
+          "description": "方法名表达式匹配，支持通配符，如primeFactors或*method。record操作时必需",
+          "type": "string"
+        },
+        "action": {
+          "description": "操作类型: record/t(记录), list/l(列表), search/s(搜索), info/i(查看详情), replay/p(重放), delete/d(删除), deleteAll/da(删除所有)，默认record",
+          "type": "string"
+        },
+        "index": {
+          "description": "指定索引，用于info/replay/delete等操作",
+          "type": "integer"
+        },
+        "numberOfExecutions": {
+          "description": "记录次数限制，默认值为 1。达到指定次数后自动停止（仅record操作）",
+          "type": "integer"
+        },
+        "timeout": {
+          "description": "命令执行超时时间，单位为秒，默认30秒。超时后命令自动退出（仅record操作）",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "trace",
+    "description": "Trace 方法内部调用路径跟踪工具: 追踪方法内部调用路径，输出每个节点的耗时信息，对应 Arthas 的 trace 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名表达式匹配，支持通配符，如demo.MathGame",
+          "type": "string"
+        },
+        "maxMatchCount": {
+          "description": "指定Class最大匹配数量，默认50",
+          "type": "integer"
+        },
+        "condition": {
+          "description": "OGNL条件表达式，包括#cost耗时过滤，如'#cost>100'表示耗时超过100ms",
+          "type": "string"
+        },
+        "regex": {
+          "description": "开启正则表达式匹配，默认为通配符匹配，默认false",
+          "type": "boolean"
+        },
+        "methodPattern": {
+          "description": "方法名表达式匹配，支持通配符，如primeFactors",
+          "type": "string"
+        },
+        "numberOfExecutions": {
+          "description": "执行次数限制，默认值为1。达到指定次数后自动停止",
+          "type": "integer"
+        },
+        "timeout": {
+          "description": "命令执行超时时间，单位为秒，默认30秒。超时后命令自动退出",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "watch",
+    "description": "Watch 方法执行观察工具: 观察指定方法的调用情况，包括入参、返回值和抛出异常等信息，支持实时流式输出。对应 Arthas 的 watch 命令。",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "classPattern": {
+          "description": "类名表达式匹配，支持通配符，如demo.MathGame",
+          "type": "string"
+        },
+        "methodPattern": {
+          "description": "方法名表达式匹配，支持通配符，如primeFactors",
+          "type": "string"
+        },
+        "express": {
+          "description": "观察表达式，默认为{params, target, returnObj}，支持OGNL表达式",
+          "type": "string"
+        },
+        "successOnly": {
+          "description": "在方法正常返回后观察(-s)，默认false",
+          "type": "boolean"
+        },
+        "numberOfExecutions": {
+          "description": "执行次数限制，默认值为 1。达到指定次数后自动停止",
+          "type": "integer"
+        },
+        "timeout": {
+          "description": "命令执行超时时间，单位为秒，默认30秒。超时后命令自动退出",
+          "type": "integer"
+        },
+        "expandLevel": {
+          "description": "指定输出结果的属性遍历深度，默认1，最大4",
+          "type": "integer"
+        },
+        "beforeMethod": {
+          "description": "在方法调用之前观察(-b)，默认false",
+          "type": "boolean"
+        },
+        "maxMatchCount": {
+          "description": "指定Class最大匹配数量，默认50",
+          "type": "integer"
+        },
+        "sizeLimit": {
+          "description": "输出结果大小上限(字节)。对应 watch -M/--sizeLimit，默认 10 * 1024 * 1024",
+          "type": "integer"
+        },
+        "condition": {
+          "description": "OGNL条件表达式，满足条件的调用才会被观察，如params[0]<0",
+          "type": "string"
+        },
+        "regex": {
+          "description": "开启正则表达式匹配，默认为通配符匹配，默认false",
+          "type": "boolean"
+        },
+        "exceptionOnly": {
+          "description": "在方法抛出异常后观察(-e)，默认false",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "classPattern"
+      ],
+      "additionalProperties": false
+    }
+  }
+]

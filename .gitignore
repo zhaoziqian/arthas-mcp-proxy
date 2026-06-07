@@ -1,0 +1,5 @@
+agents.yaml
+.venv/
+__pycache__/
+*.pyc
+.mcp-auth/

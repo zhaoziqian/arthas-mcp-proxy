@@ -1,0 +1,10 @@
+[project]
+name = "arthas-mcp-proxy"
+version = "0.1.0"
+description = "Arthas 多 Agent 聚合代理 MCP"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=2.0",
+    "httpx>=0.27",
+    "pyyaml>=6.0",
+]
